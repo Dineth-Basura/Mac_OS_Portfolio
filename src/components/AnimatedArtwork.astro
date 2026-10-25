@@ -1,0 +1,9 @@
+---
+interface Props { src: string; class?: string; scroll?: boolean; }
+const {src, class: className='', scroll=false}=Astro.props;
+---
+<div class:list={['animated-artwork',className]} data-artwork={src} data-scroll-artwork={scroll?'true':undefined} aria-hidden="true"></div>
+<script>
+ import { initArtwork } from '../lib/artwork';
+ initArtwork();
+</script>

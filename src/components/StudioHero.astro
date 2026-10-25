@@ -1,0 +1,28 @@
+---
+import StudioBackdrop from './StudioBackdrop.astro';
+import Icon from './Icon.astro';
+import { profile, site } from '../lib/data';
+---
+<div class="studio-scene" data-studio-scene>
+ <section class="studio-hero" id="home" aria-label="Introduction">
+  <StudioBackdrop />
+  <div class="studio-panel studio-opening" data-studio-panel>
+   <p class="studio-kicker" data-studio-line>HEY, I'M DINETH</p>
+   <h1><span data-studio-line>DINETH</span><span data-studio-line>BASURA<span class="studio-dot">.</span></span></h1>
+   <div class="studio-aside"><p data-studio-line>Secure by mindset.<br/>Creative by nature.</p><span data-studio-line>Cybersecurity undergraduate.<br/>Software developer. Sri Lanka.</span></div>
+   <div class="studio-disciplines" data-studio-line><span><b>01 /</b> CYBERSECURITY</span><span><b>02 /</b> SOFTWARE DEVELOPMENT</span><span><b>03 /</b> CREATIVE PROBLEM SOLVING</span></div>
+  </div>
+  <div class="studio-panel studio-story" data-studio-panel>
+   <p class="studio-kicker" data-studio-line>SECURITY MEETS CREATIVITY</p>
+   <h2><span data-studio-line>Curious mind.</span><span data-studio-line>Secure code.</span><span class="studio-accent" data-studio-line>Real impact.</span></h2>
+   <p class="studio-description" data-studio-line>{profile.intro}</p>
+  </div>
+  <div class="studio-panel studio-finale" data-studio-panel>
+   <p class="studio-kicker" data-studio-line>FROM CURIOSITY TO CREATION</p>
+   <h2><span data-studio-line>Let's build</span><span data-studio-line>something</span><span class="studio-accent" data-studio-line>meaningful.</span></h2>
+   <div class="studio-actions" data-studio-line><a class="button primary" href="#projects">Explore my work <Icon name="arrow" size={18}/></a><a class="button secondary" href={site.cv} download>Download CV <Icon name="download" size={18}/></a></div>
+  </div>
+  <div class="studio-footer"><a href="#about">SCROLL TO DISCOVER <span aria-hidden="true">↓</span></a><span>{profile.status}</span><span class="studio-counter" aria-hidden="true"><b data-studio-chapter>01</b> / 03</span></div>
+  <div class="studio-timeline" aria-hidden="true"><span data-studio-progress></span></div>
+ </section>
+</div>

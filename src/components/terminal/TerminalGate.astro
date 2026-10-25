@@ -1,0 +1,57 @@
+<dialog id="security-terminal-dialog" class="security-terminal-dialog" aria-label="Dineth's Security Terminal">
+ <div id="security-terminal-root"><div class="terminal-loading"><p role="status">Opening security terminal…</p><button data-terminal-fallback-close>Return to portfolio</button></div></div>
+</dialog>
+<script>
+ import type {TerminalData} from '../../lib/terminal/types';
+ const dialog=document.querySelector<HTMLDialogElement>('#security-terminal-dialog');
+ const launcher=document.querySelector<HTMLButtonElement>('.terminal-mode-switch');
+ const mount=document.querySelector<HTMLElement>('#security-terminal-root');
+ if(dialog&&launcher&&mount){
+  let initialized=false;let loading=false;let returnFocus:HTMLElement|null=null;let styles:Promise<void>|undefined;
+  const loadStyles=()=>{
+   if(styles)return styles;
+   styles=new Promise<void>((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/styles/security-terminal.css';link.addEventListener('load',()=>resolve());link.addEventListener('error',()=>{link.remove();styles=undefined;reject(new Error('Unable to load terminal styles.'));});document.head.appendChild(link);});
+   return styles;
+  };
+  const close=()=>dialog.close();
+  const measure=()=>{
+   const viewport=window.visualViewport;const available=viewport?.height||innerHeight;const height=Math.max(120,available-24);
+   dialog.style.setProperty('--terminal-height',`${height}px`);
+   dialog.style.setProperty('--terminal-offset',`${(viewport?.offsetTop||0)+Math.max(12,(available-(innerWidth<=520?height:Math.min(690,height)))/2)}px`);
+   dialog.dataset.compact=available<450?'true':'false';
+  };
+  mount.querySelector('[data-terminal-fallback-close]')?.addEventListener('click',close);
+  launcher.hidden=false;
+  launcher.addEventListener('click',async()=>{
+   if(loading)return;
+   returnFocus=document.activeElement as HTMLElement;measure();dialog.showModal();
+   if(initialized){mount.querySelector<HTMLInputElement>('input')?.focus();return;}
+   loading=true;
+   try{
+    // Astro's default page has no React island, so initialize refresh before lazy React imports in development.
+    if(import.meta.env.DEV)await import('@vitejs/plugin-react/preamble');
+    const [component,react,dom,data]=await Promise.all([import('./SecurityTerminal'),import('react'),import('react-dom/client'),fetch('/terminal-data.json').then(async response=>{if(!response.ok)throw Error('Unable to load portfolio data.');return await response.json() as TerminalData;}),loadStyles()]);
+    dom.createRoot(mount).render(react.createElement(component.default,{data,onClose:close}));initialized=true;
+   }catch(error){
+    console.error('Security terminal failed to load:',error);
+    const status=mount.querySelector('[role="status"]');if(status)status.textContent='The terminal could not load. Close it and try again.';
+   }finally{loading=false;}
+  });
+  dialog.addEventListener('close',()=>returnFocus?.focus());
+  window.visualViewport?.addEventListener('resize',measure);window.addEventListener('resize',measure,{passive:true});
+ }
+</script>
+<style is:global>
+ .terminal-mode-switch{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);padding:9px 12px;font-size:10px;min-height:40px;white-space:nowrap}
+ .terminal-mode-switch:hover{border-color:var(--accent);color:var(--accent)}
+ .security-terminal-dialog{inset:var(--terminal-offset,12px) 0 auto;margin:0 auto;width:min(820px,calc(100vw - 32px));height:min(690px,var(--terminal-height,calc(100dvh - 32px)));max-height:calc(100dvh - 16px);max-width:calc(100vw - 16px);padding:0;border:1px solid var(--border);border-radius:16px;background:var(--bg);color:var(--text);box-shadow:0 20px 90px #0006;overflow:hidden}
+ .security-terminal-dialog::backdrop{background:#020908a8}
+ .security-terminal-dialog[open]{animation:terminalOpen .18s ease-out}
+ #security-terminal-root{height:100%}
+ .terminal-loading{display:grid;align-content:center;justify-items:center;gap:22px;height:100%;padding:30px;text-align:center}
+ .terminal-loading button{padding:10px 18px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text)}
+ html:has(.security-terminal-dialog[open]){overflow:hidden}
+ @keyframes terminalOpen{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+ @media(max-width:520px){.terminal-mode-switch{width:40px;padding:0}.terminal-mode-switch>span{display:none}.security-terminal-dialog{width:calc(100vw - 16px);height:var(--terminal-height,calc(100dvh - 24px));border-radius:12px}}
+ @media(prefers-reduced-motion:reduce){.security-terminal-dialog[open]{animation:none}}
+</style>

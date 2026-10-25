@@ -1,0 +1,48 @@
+{
+  "url": "",
+  "title": "Dineth Basura | Cybersecurity & Software Development Portfolio",
+  "description": "Cybersecurity undergraduate at SLIIT exploring network security, secure software development, and computer vision. Discover Dineth Basura's projects and experience.",
+  "cv": "/cv/Dineth_Basura_CV.pdf",
+  "socialImage": "/images/social-card.png",
+  "introLabel": "SECURITY MEETS CREATIVITY",
+  "aboutTitle": "Curiosity is my\nstrongest tool.",
+  "skillsTitle": "A toolkit.\nAlways evolving.",
+  "projectsTitle": "Ideas, engineered.",
+  "projectsIntro": "A selection of hands-on explorations in security, software, and intelligent systems.",
+  "certificationsTitle": "Learning with intent.",
+  "experienceTitle": "The journey so far.",
+  "contactTitle": "Let's build something\nmeaningful.",
+  "contactIntro": "Have an internship opportunity, a project in mind, or an interesting idea? I'd love to hear from you.",
+  "showCertifications": true,
+  "showExperience": true,
+  "navigation": [
+    {
+      "label": "Home",
+      "id": "home"
+    },
+    {
+      "label": "About",
+      "id": "about"
+    },
+    {
+      "label": "Skills",
+      "id": "skills"
+    },
+    {
+      "label": "Projects",
+      "id": "projects"
+    },
+    {
+      "label": "Certifications",
+      "id": "certifications"
+    },
+    {
+      "label": "Education",
+      "id": "experience"
+    },
+    {
+      "label": "Contact",
+      "id": "contact"
+    }
+  ]
+}

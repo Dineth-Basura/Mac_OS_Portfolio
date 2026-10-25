@@ -1,0 +1,9 @@
+---
+import AnimatedArtwork from './AnimatedArtwork.astro';
+interface Props { href?: string; }
+const { href='/contact/' }=Astro.props;
+---
+<div class="contact-artwork-group">
+ <div class="mirror-artwork"><AnimatedArtwork src="/animations/smart-mirror.json"/></div>
+ <div class="contact-artwork-footer"><p>Good ideas start<br/><strong>with a conversation.</strong></p><a class="connect-artwork" href={href} aria-label="Start a conversation"><AnimatedArtwork src="/animations/contact.json"/></a></div>
+</div>

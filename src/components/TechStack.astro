@@ -1,0 +1,9 @@
+---
+import {skills} from '../lib/data';
+---
+<div class="tech-stack" data-motion>
+ <div class="stack-heading"><div><span class="mini-label">MY TECH STACK</span><h3>The tools behind the work.</h3></div><p>Code, connect, build, secure.</p></div>
+ <ul class="stack-grid" aria-label="Technology stack">
+  {skills.stack.map((tool,i)=><li class="stack-tool" style={`--i:${i}`}><span class="stack-logo"><img src={tool.icon} alt="" width="28" height="28" loading="lazy" decoding="async"/></span><span>{tool.name}</span></li>)}
+ </ul>
+</div>

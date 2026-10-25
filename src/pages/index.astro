@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import StudioHero from '../components/StudioHero.astro';
+import '../styles/studio.css';
+import AnimatedArtwork from '../components/AnimatedArtwork.astro';
+import NetworkVisual from '../components/NetworkVisual.astro';
+import ContactArtwork from '../components/ContactArtwork.astro';
+import TechStack from '../components/TechStack.astro';
+import JourneyVisual from '../components/JourneyVisual.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import {profile,site,skills,contact} from '../lib/data';
+import {getCollection} from 'astro:content';
+const projects=(await getCollection('projects',({data})=>data.visible)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||a.data.order-b.data.order);
+const certificates=(await getCollection('certifications',({data})=>data.visible)).sort((a,b)=>a.data.order-b.data.order);
+const experience=(await getCollection('experience',({data})=>data.visible)).sort((a,b)=>a.data.order-b.data.order);
+const education=experience.filter(e=>e.data.kind==='Education').at(-1);
+const journey=experience.filter(e=>e.data.kind!=='Activity');
+
+---
+<Layout>
+ <StudioHero/>
+ <div class="lower-flow">
+  <div class="discipline-strip" aria-hidden="true"><span>CYBERSECURITY</span><i>&middot;</i><span>SOFTWARE DEVELOPMENT</span><i>&middot;</i><span>CREATIVE PROBLEM SOLVING</span><i>&middot;</i><span>CONTINUOUS LEARNING</span></div>
+  <section class="section-wrap about-section" id="about">
+   <AnimatedArtwork src="/animations/about.json" class="section-bg-fish about-animation"/>
+   <div class="section-label"><span>01 / ABOUT</span><span>THE PERSON BEHIND THE PROJECTS</span></div>
+   <div class="about-layout"><div data-reveal><h2>{site.aboutTitle.split('\n').map((s,i)=><span class:list={{'muted-heading':i>0}}>{s}</span>)}</h2><div class="about-graphic"><NetworkVisual/><div class="graphic-label">CONNECTING THE DOTS<span>SECURITY / CODE / CURIOSITY</span></div></div></div><div class="about-copy" data-reveal><p class="lead">{profile.bio}</p><p>{profile.aboutDetail}</p><div class="education-note">{education?.data.logo&&<img class="education-logo" src={education.data.logo} alt={education.data.logoAlt||`${education.data.organization} logo`} width="316" height="289" loading="lazy"/>}<div class="education-note-copy"><span class="mini-label">CURRENTLY AT</span><h3>{education?.data.organization}</h3><p>{education?.data.title}</p><span>{education?.data.period}</span></div></div><a class="text-link" href={site.cv} download>The full story, in my CV <Icon name="arrow" size={18}/></a></div></div>
+  </section>
+  <section class="skills-section" id="skills"><div class="section-wrap"><AnimatedArtwork src="/animations/fish.json" class="section-bg-fish skills-fish"/><div class="section-label"><span>02 / CAPABILITIES</span><span>TOOLS FOR THE NEXT CHALLENGE</span></div><div class="section-heading"><h2>{site.skillsTitle.split('\n').map((s,i)=><span class:list={{'muted-heading':i>0}}>{s}</span>)}</h2><p>Different disciplines. One connected mindset.<br/>Built through study and hands-on practice.</p></div><TechStack/><div class="skills-grid">{skills.categories.map((c,i)=><article class="skill-card" data-reveal><div class="skill-card-top"><Icon name={c.icon} size={27}/><span>0{i+1}</span></div><h3>{c.title}</h3><p>{c.subtitle}</p><ul>{c.items.map(s=><li>{s}</li>)}</ul></article>)}</div></div></section>
+  <ProjectsSection projects={projects}/>
+  {site.showCertifications&&<section class="certifications-section" id="certifications"><div class="section-wrap"><AnimatedArtwork src="/animations/fish.json" class="section-bg-fish certs-fish"/><div class="section-label"><span>04 / CERTIFICATIONS</span><span>STAYING A STUDENT OF THE CRAFT</span></div><div class="section-heading"><h2>{site.certificationsTitle}</h2></div><div class="certificates-grid">{certificates.map((c,i)=><article class="certificate" data-reveal><div class="certificate-top"><Icon name="award" size={32}/><span>0{i+1}</span></div>{c.data.image&&<a href={c.data.image} target="_blank" rel="noopener noreferrer"><img src={c.data.image} alt={`${c.data.title} certificate`} width="500" height="350" loading="lazy"/></a>}<span class="mini-label">{c.data.issuer}</span><h3>{c.data.title}</h3>{c.data.date&&<p>{c.data.date}</p>}{c.data.description&&<p>{c.data.description}</p>}{c.data.credentialId&&<p>Credential: {c.data.credentialId}</p>}{c.data.skills.length>0&&<ul class="tech-list">{c.data.skills.map(s=><li>{s}</li>)}</ul>}{c.data.credentialUrl&&<a class="text-link" href={c.data.credentialUrl} target="_blank" rel="noopener noreferrer">View credential <Icon name="arrow" size={16}/></a>}</article>)}</div></div></section>}
+  {site.showExperience&&<section class="section-wrap experience-section" id="experience"><div class="section-wrap-inner"><AnimatedArtwork src="/animations/fish.json" class="section-bg-fish experience-fish"/><div class="section-label"><span>05 / EDUCATION</span><span>ACADEMIC BACKGROUND</span></div><div class="experience-layout"><div class="journey-heading"><h2>{site.experienceTitle}</h2><JourneyVisual/></div><div class="timeline">{journey.map(e=><article class="timeline-item" data-reveal><div class="timeline-dot"></div><div class="timeline-meta"><span>{e.data.kind}</span>{e.data.period&&<span>{e.data.period}</span>}</div><h3>{e.data.title}</h3><p class="timeline-org">{e.data.organization}</p><p>{e.data.description}</p></article>)}</div></div></div></section>}
+  <section class="contact-section" id="contact"><div class="contact-mirror-bg"><AnimatedArtwork src="/animations/smart-mirror.json" class="smart-mirror-bg"/><div class="mirror-blur-overlay"></div></div><div class="section-wrap"><div class="section-label"><span>06 / WHAT'S NEXT?</span><span>GOOD IDEAS START WITH A CONVERSATION</span></div><div class="contact-layout"><div class="contact-glass-card" data-reveal><div class="eyebrow"><span class="status-dot"/>{profile.status}</div><h2>{site.contactTitle.split('\n').map((s,i)=><span class:list={{accent:i>0}}>{s}</span>)}</h2><p>{site.contactIntro}</p><a class="contact-email" href={`mailto:${profile.email}`}>{profile.email}<Icon name="arrow" size={30}/></a><div><a href="/contact/" class="button primary homepage-contact-button">{contact.homepageButton}<Icon name="arrow" size={18}/></a></div></div><div class="contact-side contact-glass-card" data-reveal><ContactArtwork/><p><Icon name="pin" size={18}/>{profile.location}</p><div class="contact-links"><a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <Icon name="arrow" size={16}/></a><a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <Icon name="arrow" size={16}/></a><a href={site.cv} download>Download CV <Icon name="download" size={16}/></a></div></div></div></div></section>
+ </div>
+</Layout>
+<script>
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const section=document.querySelector('.contact-section');
+  if(section){
+   const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+   section.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));
+  }
+ }
+</script>

@@ -1,0 +1,83 @@
+---
+import {profile,site} from '../lib/data';
+import Icon from '../components/Icon.astro';
+import CursorAccent from '../components/CursorAccent.astro';
+import TerminalGate from '../components/terminal/TerminalGate.astro';
+import '../styles/global.css';
+import '../styles/enhancements.css';
+import '../styles/liquid.css';
+import '@fontsource-variable/manrope';
+import '@fontsource/ibm-plex-mono/400.css';
+interface Props { title?:string; description?:string; }
+const {title=site.title,description=site.description}=Astro.props;
+const canonical=Astro.site?new URL(Astro.url.pathname,Astro.site):undefined;
+const home=Astro.url.pathname==='/';
+const navHref=(id:string)=>id==='contact'?'/contact/':`${home?'':'/'}#${id}`;
+const nav=site.navigation.filter(n=>(n.id!=='certifications'||site.showCertifications)&&(n.id!=='experience'||site.showExperience));
+---
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#080b12"/>
+ {canonical&&<link rel="canonical" href={canonical}/>}
+ <meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>
+ {canonical&&<meta property="og:url" content={canonical}/>}
+ <meta property="og:image" content={Astro.site?new URL(site.socialImage,Astro.site):site.socialImage}/><meta property="og:image:alt" content={`${profile.name} — cybersecurity and software development`}/>
+ <meta name="twitter:card" content="summary_large_image"/>
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+ {Astro.site&&<link rel="sitemap" href="/sitemap-index.xml"/>}
+ <script is:inline>try{const t=localStorage.getItem('db-theme');document.documentElement.dataset.theme=t==='light'||t==='dark'?t:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}catch{document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}</script>
+ <script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'Person',name:profile.fullName,description:profile.role,...(Astro.site?{url:Astro.site.href}:{}),sameAs:[profile.github,profile.linkedin],affiliation:{'@type':'CollegeOrUniversity',name:'Sri Lanka Institute of Information Technology'}}).replace(/</g,'\\u003c')}/>
+</head>
+<body>
+ <CursorAccent/>
+ <TerminalGate/>
+ <a href="#main" class="skip-link">Skip to content</a><div class="scroll-progress" aria-hidden="true"></div>
+ <header class="site-header"><a class="wordmark" href="/" aria-label={`${profile.name}, home`}>d<span>b</span><i>.</i></a>
+ <nav class="desktop-nav" aria-label="Main navigation">{nav.map(n=><a href={navHref(n.id)} data-section={n.id}>{n.label}</a>)}</nav>
+ <div class="nav-actions"><button class="terminal-mode-switch" type="button" aria-label="Switch to terminal mode" aria-haspopup="dialog" aria-controls="security-terminal-dialog" title="Explore the portfolio in Terminal mode" hidden><Icon name="terminal" size={17}/><span>Terminal mode</span></button><button class="theme-toggle icon-button" aria-label="Switch color theme" title="Switch color theme"><Icon name="sun" size={19}/></button><a class="nav-cv" href={site.cv} download>CV <Icon name="download" size={15}/></a><button class="menu-toggle icon-button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><Icon name="menu"/></button></div>
+ </header>
+ <noscript><nav class="nojs-nav" aria-label="Section navigation">{nav.map(n=><a href={navHref(n.id)}>{n.label}</a>)}</nav><style>.menu-toggle,.theme-toggle{display:none!important}</style></noscript>
+ <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>{nav.map(n=><a href={navHref(n.id)}>{n.label}<Icon name="arrow"/></a>)}<a href={site.cv} download>Download CV<Icon name="download"/></a></nav>
+ <main id="main"><slot/></main>
+ <footer class="site-footer"><a class="wordmark" href="/">d<span>b</span><i>.</i></a><p>© {new Date().getFullYear()} {profile.name}. Built with curiosity.</p><a href="#main">Back to top <Icon name="arrow" size={16}/></a></footer>
+ <script>
+ const themeButton=document.querySelector<HTMLButtonElement>('.theme-toggle');
+ function labelTheme(){const dark=document.documentElement.dataset.theme==='dark';themeButton?.setAttribute('aria-label',`Switch to ${dark?'light':'dark'} theme`);themeButton?.setAttribute('title',`Switch to ${dark?'light':'dark'} theme`);}
+ labelTheme();themeButton?.addEventListener('click',()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('db-theme',t);}catch{}labelTheme();});
+ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{let saved=false;try{saved=!!localStorage.getItem('db-theme');}catch{}if(!saved){document.documentElement.dataset.theme=e.matches?'dark':'light';labelTheme();}});
+ const menu=document.querySelector<HTMLButtonElement>('.menu-toggle');const mobile=document.querySelector<HTMLElement>('#mobile-nav');
+ function closeMenu(){if(mobile)mobile.hidden=true;menu?.setAttribute('aria-expanded','false');menu?.setAttribute('aria-label','Open navigation');}
+ menu?.addEventListener('click',()=>{if(!mobile)return;const open=menu.getAttribute('aria-expanded')!=='true';mobile.hidden=!open;menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close navigation':'Open navigation');if(open)mobile.querySelector<HTMLAnchorElement>('a')?.focus();});
+ mobile?.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu?.getAttribute('aria-expanded')==='true'){closeMenu();menu.focus();}});
+ document.addEventListener('click',e=>{if(menu?.getAttribute('aria-expanded')==='true'&&!mobile?.contains(e.target as Node)&&!menu.contains(e.target as Node))closeMenu();});
+ matchMedia('(min-width: 1101px)').addEventListener('change',e=>{if(e.matches)closeMenu();});
+ const progress=document.querySelector<HTMLElement>('.scroll-progress');const header=document.querySelector<HTMLElement>('.site-header');let pending=false;let maxScroll=0;let scrolled=false;
+ const nativeProgress=CSS.supports('animation-timeline: scroll()');
+ const measureScroll=()=>{maxScroll=Math.max(0,document.documentElement.scrollHeight-innerHeight);};
+ new ResizeObserver(measureScroll).observe(document.body);window.addEventListener('resize',measureScroll,{passive:true});measureScroll();
+ const updateScroll=()=>{if(!nativeProgress&&progress)progress.style.transform=`scaleX(${maxScroll>0?scrollY/maxScroll:0})`;const next=scrollY>20;if(next!==scrolled){header?.classList.toggle('scrolled',next);scrolled=next;}pending=false;};
+ window.addEventListener('scroll',()=>{if(!pending){pending=true;requestAnimationFrame(updateScroll);}},{passive:true});updateScroll();
+ const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){document.querySelectorAll('[data-section]').forEach(a=>{if(a.getAttribute('data-section')===entry.target.id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}});},{rootMargin:'-15% 0px -60% 0px'});
+ document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+ const revealObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');revealObserver.unobserve(e.target);}}),{threshold:.08});document.querySelectorAll('[data-reveal]').forEach(e=>revealObserver.observe(e));
+ const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+ const motionElements=Array.from(document.querySelectorAll<HTMLElement>('[data-motion]'));
+ const visibleMotion=new Set<Element>();
+ const syncMotion=()=>motionElements.forEach(el=>el.classList.toggle('motion-visible',visibleMotion.has(el)&&!document.hidden&&!motionPreference.matches));
+ const motionObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)visibleMotion.add(e.target);else visibleMotion.delete(e.target);});syncMotion();},{threshold:0});
+ motionElements.forEach(el=>motionObserver.observe(el));document.addEventListener('visibilitychange',syncMotion);motionPreference.addEventListener('change',syncMotion);
+ // The complete introduction is accessible with scripts disabled or motion reduced.
+ const typed=document.querySelector<HTMLElement>('[data-typewriter]');
+ if(typed&&!motionPreference.matches){
+  const message=typed.textContent||'';const characters=Array.from(message);let index=0;let timer:ReturnType<typeof setTimeout>;
+  typed.textContent='';typed.classList.add('is-typing');
+  const finish=()=>{clearTimeout(timer);typed.textContent=message;typed.classList.remove('is-typing');};
+  const type=()=>{if(document.hidden||motionPreference.matches){finish();return;}typed.textContent=characters.slice(0,++index).join('');if(index<characters.length)timer=setTimeout(type,32);else typed.classList.remove('is-typing');};
+  timer=setTimeout(type,350);motionPreference.addEventListener('change',finish);document.addEventListener('visibilitychange',()=>{if(document.hidden)finish();});
+ }
+ </script>
+</body>
+</html>

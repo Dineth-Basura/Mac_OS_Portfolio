@@ -1,0 +1,25 @@
+/* Modern indigo-violet palette with warm ivory base. Glass is reserved for useful surfaces. */
+:root{--bg:#f8f7ff;--surface:#ffffff;--surface-alt:#f0edf9;--text:#1a1640;--muted:#64748b;--accent:#6d5cff;--accent-soft:#ece8ff;--border:#e0dced;--header:#f8f7ffed;--shadow:0 15px 45px #2d1f6910}
+html[data-theme='dark']{--bg:#0c0a1d;--surface:#151230;--surface-alt:#1c1840;--text:#f0edff;--muted:#9ca3b8;--accent:#a78bfa;--accent-soft:#261e52;--border:#2e285a;--header:#0c0a1dee}
+body{background:var(--bg)}
+.skills-section,.certifications-section{background:var(--surface-alt)}
+.contact-section{background:var(--surface-alt)}
+.discipline-strip{background:var(--surface);border-block:1px solid var(--border);color:var(--muted)}
+.site-header,.mobile-nav{background:var(--header);backdrop-filter:blur(16px)}
+.skill-card,.project-card,.certificate,.education-note,.detail-sidebar{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:0 5px 22px #2d1f6906;overflow:hidden;backdrop-filter:none}
+.timeline-item{background:transparent;box-shadow:none;border-radius:0}
+.button,.filter-button,.nav-cv,.terminal-mode-switch{border-radius:12px}
+.button.primary{background:var(--accent);color:#fff;border:1px solid transparent;box-shadow:none}
+.button.secondary{background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.button:hover{transform:translateY(-2px);box-shadow:0 6px 16px #2d1f6915}
+.project-copy{background:var(--surface)}
+.section-heading p,.about-copy p{line-height:1.8}
+input,textarea,select{background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text)}
+.site-footer{background:var(--bg);border-top:1px solid var(--border)}
+.animated-artwork{width:100%;height:100%;pointer-events:none}.animated-artwork svg{width:100%;height:100%}
+.about-graphic .animated-artwork{height:210px;max-width:290px;margin:auto}.about-graphic{height:270px}
+.contact-art-link{display:block;width:220px;height:220px;border-radius:24px;transition:transform .2s;overflow:hidden}.contact-art-link:hover{transform:translateY(-4px)}
+.motion-study{margin-top:28px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:12px}.motion-study summary{cursor:pointer;color:var(--text)}.motion-study video{width:150px;height:100px;margin-top:16px;border-radius:12px}.motion-study p{margin-top:10px;font-size:11px}
+@media(prefers-reduced-motion:reduce){.button:hover,.contact-art-link:hover{transform:none}}
+.about-graphic{background:#2e2668;border-radius:20px;padding:16px;border:1px solid #5b4bd640}
+.about-graphic .graphic-label{color:#ddd6fe}.about-graphic .graphic-label span{color:#b4a8e8}

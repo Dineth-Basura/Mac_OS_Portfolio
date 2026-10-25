@@ -1,0 +1,14 @@
+<div class="cursor-accent" aria-hidden="true"><span></span></div>
+<script>
+ const cursor=document.querySelector<HTMLElement>('.cursor-accent');
+ const mouse=matchMedia('(hover: hover) and (pointer: fine)');
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ if(cursor){
+  let frame=0;let x=0;let y=0;let active=false;
+  const hide=()=>{active=false;cancelAnimationFrame(frame);frame=0;cursor.classList.remove('cursor-visible');};
+  const render=()=>{cursor.style.transform=`translate3d(${x}px,${y}px,0)`;cursor.classList.add('cursor-visible');frame=0;};
+  window.addEventListener('pointermove',event=>{if(event.pointerType!=='mouse'||!mouse.matches||reduced.matches)return;x=event.clientX;y=event.clientY;active=true;if(!frame)frame=requestAnimationFrame(render);},{passive:true});
+  window.addEventListener('pointerover',event=>{if(active)cursor.classList.toggle('cursor-interactive',!!(event.target as Element).closest('a,button,input,textarea,select'));},{passive:true});
+  document.documentElement.addEventListener('pointerleave',hide);window.addEventListener('blur',hide);mouse.addEventListener('change',hide);reduced.addEventListener('change',hide);document.addEventListener('visibilitychange',()=>{if(document.hidden)hide();});
+ }
+</script>

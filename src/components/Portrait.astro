@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+interface Props {src:string;alt:string;skills:string[]}
+const {src,alt,skills}=Astro.props;
+const logos:Record<string,string>={Python:'python',Linux:'linux',Docker:'docker',React:'react',Wireshark:'wireshark'};
+---
+<div class="portrait-scene" data-motion>
+ <div class="portrait-halo"></div><div class="portrait-orbit orbit-one"></div><div class="portrait-orbit orbit-two"></div>
+ <div class="portrait-frame"><img src={src} alt={alt} width="760" height="912" fetchpriority="high" decoding="async"/><div class="portrait-shade"></div><div class="portrait-stamp"><span class="status-dot"></span> A MINDSET IN MOTION <span>01 / DB</span></div></div>
+ {skills.map((skill,i)=><span class={`orbit-badge badge-${i}`} style={`--i:${i}`} title={skill}>{logos[skill]?<img class="portrait-tech-icon" src={`/images/tech/${logos[skill]}.svg`} alt="" width="18" height="18"/>:<Icon name="code" size={17} class="badge-symbol"/>}{skill}</span>)}
+ <div class="portrait-coordinates">SRI LANKA / UTC +05:30 <span>SECURITY · SOFTWARE · CURIOSITY</span></div>
+</div>

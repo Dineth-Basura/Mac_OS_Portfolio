@@ -1,0 +1,11 @@
+/* One icon size per surface; normalize the artwork's visible bounds inside it. */
+.app-icon{--icon-size:56px;width:var(--icon-size);height:var(--icon-size);flex:0 0 auto;position:relative}
+.free-layout .desktop-app .app-icon,.dock-app .app-icon{width:56px;height:56px;border-radius:13px}
+.app-icon.has-image{overflow:hidden;background:#fff;box-shadow:0 3px 9px #0002!important;isolation:isolate}
+.app-icon.has-image img{position:absolute;width:var(--art-size,100%);height:var(--art-size,100%);left:var(--art-x,0);top:var(--art-y,0);max-width:none;max-height:none;object-fit:contain;filter:none}
+.app-icon svg{width:100%;height:100%}
+.dock{height:78px}.dock-app.running:before{bottom:-6px}
+.finder-list .app-icon{width:25px;height:25px}
+#spotlightResults .app-icon{width:30px;height:30px}
+@media(max-width:840px){.free-layout .desktop-app .app-icon,.dock-app .app-icon{width:48px;height:48px;border-radius:11px}.dock{height:72px}}
+@media(max-width:560px){.free-layout .desktop-app .app-icon,.dock-app .app-icon{width:44px;height:44px;border-radius:10px}.dock{height:64px;gap:5px;padding:8px}.dock-holder{max-width:calc(100vw - 18px)}.free-layout .desktop-app .is-folder{border-radius:0}}

@@ -1,0 +1,198 @@
+
+    :root {
+      --white: #fff;
+      --ink: #17283a;
+      --glass: rgba(237, 243, 248, .75);
+      --wallpaper: url('../images/wallpaper.jpg');
+      --menu-height: 32px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, sans-serif;
+      font-synthesis: none;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { color: var(--ink); overflow: hidden; }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible { outline: 2px solid #83bcff; outline-offset: 3px; }
+    svg { display: block; }
+
+    #desktop {
+      position: relative;
+      width: 100%; height: 100dvh; min-height: 440px;
+      isolation: isolate; overflow: hidden;
+      background: #49677c var(--wallpaper) center / cover no-repeat;
+    }
+    #desktop::before {
+      position: absolute; inset: var(--menu-height) 0 0;
+      content: ""; pointer-events: none;
+      background: linear-gradient(90deg, rgba(0, 19, 30, .30), rgba(0, 0, 0, .05) 45%, rgba(15, 32, 46, .12));
+      z-index: 0;
+    }
+    .menubar {
+      position: relative; z-index: 95; height: var(--menu-height);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 13px 0 12px; gap: 16px;
+      background: rgba(238, 244, 246, .81);
+      border-bottom: 1px solid rgba(255, 255, 255, .35);
+      color: #19232a; backdrop-filter: blur(26px) saturate(1.3);
+      -webkit-backdrop-filter: blur(26px) saturate(1.3);
+      font-size: 14px; white-space: nowrap;
+      text-shadow: none;
+    }
+    .menuleft, .menuright { display: flex; align-items: center; gap: 23px; }
+    .menuright { gap: 16px; }
+    .menubrand { font-size: 21px; line-height: 1; font-weight: 700; }
+    .menu-label { font-weight: 700; }
+    .menuaction { background: transparent; border: 0; padding: 2px 0; color: inherit; font-size: inherit; }
+    .menuaction:hover { color: #086eaa; }
+    #menuTime { font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+    /* Every app is live HTML + inline SVG, never a scaled screenshot. */
+    .desktop-icons {
+      position: absolute; left: 10px; top: 54px; z-index: 3;
+      display: grid; grid-auto-flow: column; grid-template-rows: repeat(6, 88px);
+      grid-auto-columns: 96px; gap: 6px 0;
+    }
+    .desktop-app {
+      display: flex; align-items: center; flex-direction: column; justify-content: flex-start;
+      gap: 5px; width: 86px; height: 84px; padding: 2px 2px 0;
+      border-radius: 10px; border: 1px solid transparent;
+      background: transparent; color: #fff;
+      text-decoration: none; text-align: center;
+      user-select: none; -webkit-user-select: none;
+    }
+    .desktop-app:hover, .desktop-app:focus-visible { background: #ffffff29; border-color: #ffffff63; }
+    .app-icon {
+      display: block;
+      width: 56px; height: 56px; flex: 0 0 auto;
+      border-radius: 13px; overflow: hidden;
+      box-shadow: 0 3px 12px #0003, inset 0 0 0 .5px #ffffff36;
+      transition: transform 180ms ease, filter 180ms ease;
+    }
+    .app-icon svg { width: 100%; height: 100%; }
+    .desktop-app:hover .app-icon { transform: translateY(-2px); filter: brightness(1.06); }
+    .app-icon.is-folder { box-shadow: none; background: transparent; border-radius: 0; overflow: visible; }
+    .app-label {
+      display: block; max-width: 85px;
+      font-size: 11.5px; font-weight: 600; line-height: 15px;
+      text-shadow: 0 1px 3px #000b, 0 0 6px #0008;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .clock-widget {
+      position: absolute; z-index: 2;
+      width: 254px; height: 254px;
+      left: 43.5%; top: 27.5%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 44% 35%, #f5f7f5eF, #e1e8e8ef 81%);
+      border: 1px solid #ffffffcb;
+      box-shadow: 0 10px 32px #0b233b28;
+      color: #455361;
+    }
+    .clock-number { position: absolute; font-size: 14px; font-weight: 500; transform: translate(-50%, -50%); }
+    .clock-tick { position: absolute; width: 1.5px; height: 8px; background: #9babb1; left: 50%; top: 8px; transform-origin: 50% 119px; opacity: .65; }
+    .clock-tick.small { height: 5px; opacity: .35; }
+    .clock-hand { position: absolute; left: 50%; top: 50%; transform-origin: 50% 100%; border-radius: 6px; }
+    .hour-hand { width: 5px; height: 66px; background: #30383c; margin-left: -2.5px; margin-top: -66px; }
+    .minute-hand { width: 3.6px; height: 89px; background: #30383c; margin-left: -1.8px; margin-top: -89px; }
+    .second-hand { width: 2px; height: 105px; background: #ff8e41; margin-left: -1px; margin-top: -105px; }
+    .clock-pin { position: absolute; top: calc(50% - 7px); left: calc(50% - 7px); width: 14px; height: 14px; background: #b7c0c4; border-radius: 50%; box-shadow: inset 0 0 0 4px #abb9bc; }
+    .clock-date { position: absolute; left: 0; right: 0; top: 66%; text-align: center; font-size: 12px; font-weight: 600; color: #839098; }
+    .clock-zone { position: absolute; left: 0; right: 0; top: 74%; text-align: center; font-size: 10px; color: #a1abb0; }
+
+    .widgets { position: absolute; top: 60px; right: 14px; z-index: 3; display: flex; gap: 17px; align-items: flex-start; }
+    .widget {
+      width: 176px; height: 178px; overflow: hidden; border-radius: 22px;
+      box-shadow: 0 10px 25px #09233c2c;
+      border: 1px solid rgba(255,255,255,.7);
+      background: rgba(238, 243, 248, .82);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    }
+    .calendar-head { height: 51px; background: linear-gradient(130deg, #7583f8, #ac43ed); color: #fff; padding: 7px 13px; }
+    .calendar-head .yr { font-size: 10px; opacity: .83; font-weight: 700; }
+    .calendar-head .month { font-size: 18px; font-weight: 800; line-height: 21px; }
+    .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px 0; padding: 8px 10px; font-size: 10px; color: #465460; text-align: center; }
+    .calendar-days span { width: 17px; height: 16px; line-height: 16px; font-variant-numeric: tabular-nums; }
+    .calendar-days .day-name { color: #93a0ab; font-weight: 800; }
+    .calendar-days .weekend { color: #ec5b65; }
+    .calendar-days .today { background: #9654ed; border-radius: 50%; color: white; font-weight: 800; }
+    .weather { background: #e4edf9; }
+    .weather-top { height: 137px; padding: 13px 14px; background: linear-gradient(130deg, #ff8539, #ffbe32); color: #fff; }
+    .weather-loc { font-size: 11px; font-weight: 800; letter-spacing: .25px; }
+    .weather-deg { font-size: 44px; font-weight: 350; line-height: 1.16; margin-top: 9px; letter-spacing: -2px; }
+    .weather-note { font-size: 11px; margin-top: 3px; }
+    .weather-bottom { display: flex; justify-content: space-between; padding: 8px 12px; font-size: 10px; color: #526678; }
+
+    .dock-holder { position: absolute; left: 50%; bottom: 9px; z-index: 35; transform: translateX(-50%); }
+    .dock {
+      display: flex; align-items: flex-end; gap: 9px; height: 80px;
+      padding: 10px 13px; border: 1px solid #ffffff82;
+      border-radius: 19px; background: rgba(212, 220, 222, .50);
+      box-shadow: 0 9px 22px #071a2472;
+      backdrop-filter: blur(25px) saturate(1.18);
+      -webkit-backdrop-filter: blur(25px) saturate(1.18);
+    }
+    .dock-app { border: 0; padding: 0; margin: 0; background: none; color: white; position: relative; }
+    .dock-app .app-icon { height: 54px; width: 54px; border-radius: 13px; transition: transform 180ms cubic-bezier(.2,.7,.2,1); }
+    .dock-app:hover .app-icon { transform: translateY(-10px) scale(1.14); }
+    .dock-app:hover::after { content: attr(aria-label); position: absolute; bottom: 71px; left: 50%; transform: translateX(-50%); background: #172330e3; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 7px; white-space: nowrap; }
+
+    .window {
+      position: absolute; display: none; left: min(36%, 460px); top: 15%; width: min(690px, calc(100vw - 24px));
+      z-index: 42; min-height: 250px; max-height: calc(100dvh - 118px);
+      color: #273a4a; background: rgba(245, 249, 252, .96);
+      border: 1px solid #ffffffbc; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 25px 75px rgba(5,24,41,.52);
+      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    }
+    .window.open { display: block; }
+    .window.fullsize { top: 37px !important; left: 10px !important; width: calc(100vw - 20px); max-height: calc(100dvh - 118px); }
+    .window-titlebar {
+      display: flex; height: 46px; align-items: center; gap: 8px; padding: 0 15px;
+      cursor: grab; user-select: none; background: #f9fbfce5; border-bottom: 1px solid #d8e0e7;
+    }
+    .window-titlebar:active { cursor: grabbing; }
+    .traffic { width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; }
+    .traffic.close { background: #ff6059; }.traffic.min { background: #ffbd2e; }.traffic.zoom { background: #29c941; }
+    .window-name { flex: 1; font-size: 14px; font-weight: 700; text-align: center; margin-right: 52px; }
+    .window-body { overflow: auto; max-height: calc(100dvh - 170px); padding: 24px 26px 28px; }
+    .window-body h1 { margin: 0 0 12px; font-size: 25px; letter-spacing: -.6px; }
+    .window-body p { font-size: 14px; line-height: 1.7; margin: 9px 0; }
+    .window-body a { color: #147bd1; text-decoration: none; }
+    .window-body a:hover { text-decoration: underline; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .chip { display: inline-flex; background: #e5edf3; border: 1px solid #d2e0e9; padding: 8px 12px; border-radius: 9px; font-size: 12px; font-weight: 650; }
+    .action-link { display: inline-flex; align-items: center; border: 0; background: #1977d0; color: white !important; font-weight: 650; font-size: 13px; padding: 10px 14px; border-radius: 10px; text-decoration: none !important; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: 12px; margin-top: 17px; }
+    .card { background: #fff; border: 1px solid #d5e1e9; border-radius: 13px; padding: 15px; }
+    .card strong { display: block; margin: 0 0 7px; font-size: 14px; }
+    .card p { font-size: 12.5px; line-height: 1.55; color: #647583; }
+    .muted { color: #74828f; }
+    #terminalDisplay { background: #1b232a; color: #98efbc; font: 13px/1.7 ui-monospace,Consolas,monospace; padding: 18px; min-height: 220px; white-space: pre-wrap; border-radius: 11px; }
+    .terminal-prompt { display:flex; align-items:center; gap:9px; background:#1b232a; padding:0 18px 17px; border-radius:0 0 10px 10px; }
+    #terminalInput { border: 0; outline: 0; background: transparent; color: #a8ffc9; flex: 1; font: 13px ui-monospace,Consolas,monospace; }
+    .gallery-image { width: 100%; display: block; border-radius: 13px; margin-top: 14px; }
+    #journalNotes { resize: vertical; min-height: 145px; width: 100%; padding: 14px; border: 1px solid #bfccd9; border-radius: 12px; }
+    .faux-toggle { display:inline-flex; align-items:center; gap:12px; border:1px solid #d0dae4; border-radius:12px; padding:10px 13px; margin:10px 0; background:#fff; }
+    .faux-toggle input { width: 18px; height: 18px; accent-color: #1785d7; }
+    .demo-tag { font-size: 11px; color:#a2c6dc; }
+    .assist-bubble { position: absolute; z-index: 10; right: 30px; bottom: 93px; width: 62px; height: 62px; background: #10111a; border: 2px solid #7449fe; color: #a6dcff; box-shadow: 0 7px 22px #0006; border-radius: 50%; display: grid; place-items: center; font-size: 30px; }
+
+    @media (max-width: 1120px) { .clock-widget { left: 45%; top: 30%; width: 215px; height: 215px; } .clock-tick { transform-origin:50% 100px; } .widgets { gap: 8px; } .widget { width: 157px; } .desktop-icons { grid-auto-columns: 85px; } }
+    @media (max-width: 840px) { .clock-widget { display: none; } .weather { display: none; } .desktop-icons { grid-auto-columns: 86px; } .menuleft { gap: 13px; } .menuleft .optional { display:none; } .dock { gap: 6px; padding: 9px; height: 70px; } .dock-app .app-icon { width: 48px; height: 48px; } }
+    @media (max-width: 560px) { .menuright .optional, .calendar { display:none; } .desktop-icons { grid-template-rows: repeat(7, 83px); grid-auto-columns: 82px; top: 51px; } .desktop-app { width: 76px; height: 79px; } .app-icon { width: 50px; height: 50px; } .app-label { font-size: 10.7px; } .dock-app:nth-child(6) { display:none; } .dock-app .app-icon { width: 43px; height: 43px; } .dock { height: 65px; } .assist-bubble { right: 12px; bottom: 89px; width: 49px; height: 49px; } .window { left: 10px !important; width: calc(100vw - 20px); top: 70px !important; } .window-body { padding: 18px; } }
+    @media (max-height: 660px) and (min-width: 561px) { .desktop-icons { grid-template-rows: repeat(5, 78px); gap: 4px 0; } .desktop-app { height: 73px; } .app-icon { width: 48px; height: 48px; } .widgets { top: 47px; } .clock-widget { top: 30%; } }
+    @media (prefers-reduced-motion: reduce) { .app-icon, .dock-app .app-icon { transition: none; } }
+  
+    #bootScreen{position:fixed;inset:0;z-index:10000;background:#000;display:grid;place-items:center;color:white;transition:opacity .55s ease;}
+    #bootScreen[hidden]{display:none;}
+    #bootScreen.leaving{opacity:0;pointer-events:none;}
+    #bootVideo{width:100%;height:100%;object-fit:contain;position:absolute;inset:0;}
+    .boot-caption{position:absolute;bottom:12%;text-align:center;letter-spacing:.12em;font-size:12px;}
+    #skipBoot{position:absolute;bottom:30px;right:30px;border:1px solid #ffffff55;background:#151515;color:white;border-radius:30px;padding:10px 20px;}
+    .desktop-icons{max-height:calc(100dvh - 150px);max-width:100%;overflow:auto;}
+    @media(max-width:560px){.desktop-icons{grid-template-rows:repeat(7,75px);grid-auto-columns:76px}.desktop-app{height:73px}.dock{gap:5px;padding:8px}.dock-app .app-icon{width:36px;height:36px}.dock-app:nth-child(6){display:block}.dock{height:57px}}
+    @media(prefers-reduced-motion:reduce){#bootScreen{transition:none}}
+
+  

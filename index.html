@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#aecfdf" />
+  <title>Desktop | Dineth Basura</title>
+  <link rel="stylesheet" href="assets/css/desktop.css" />
+  <link rel="stylesheet" href="assets/css/system.css" />
+  <link rel="stylesheet" href="assets/css/enhancements.css" />
+  <link rel="stylesheet" href="assets/css/dinu-ai.css" />
+  <link rel="stylesheet" href="assets/css/icons.css" />
+</head>
+<body>
+<div id="bootScreen" hidden role="dialog" aria-modal="true" aria-label="Starting up">
+  <video id="bootVideo" muted playsinline preload="auto" aria-hidden="true" src="assets/video/boot.mp4"></video>
+  <button id="skipBoot" type="button" aria-label="Skip startup animation">Skip</button>
+</div>
+
+<div id="desktop">
+  <header class="menubar" aria-label="macOS-style menu bar">
+    <div class="menuleft">
+      <button class="menubrand menuaction" data-menu="apple" aria-label="Apple menu" aria-haspopup="menu"><svg width="17" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.05 12.54a4.46 4.46 0 0 1 2.13-3.75 4.58 4.58 0 0 0-3.6-1.95c-1.53-.16-3.01.91-3.79.91-.8 0-2-.9-3.29-.87a4.82 4.82 0 0 0-4.05 2.47c-1.76 3.05-.45 7.53 1.23 9.99.84 1.2 1.82 2.55 3.11 2.5 1.27-.05 1.74-.81 3.26-.81 1.51 0 1.95.81 3.27.78 1.36-.02 2.21-1.21 3.03-2.42a9.96 9.96 0 0 0 1.38-2.81 4.28 4.28 0 0 1-2.68-4.04ZM14.58 5.22A4.41 4.41 0 0 0 15.59 2a4.49 4.49 0 0 0-2.91 1.53 4.18 4.18 0 0 0-1.04 3.06 3.72 3.72 0 0 0 2.94-1.37Z"/></svg></button>
+      <button class="menu-label menuaction" data-menu="app" aria-haspopup="menu">Finder</button>
+      <button class="menuaction optional" data-menu="file" aria-haspopup="menu">File</button>
+      <button class="menuaction optional" data-menu="edit" aria-haspopup="menu">Edit</button>
+      <button class="menuaction optional" data-menu="view" aria-haspopup="menu">View</button>
+      <button class="menuaction optional" data-menu="go" aria-haspopup="menu">Go</button>
+      <button class="menuaction optional" data-menu="window" aria-haspopup="menu">Window</button>
+      <button class="menuaction optional" data-menu="help" aria-haspopup="menu">Help</button>
+    </div>
+    <div class="menuright">
+      <button class="menuaction optional" id="focusButton" aria-label="Toggle Do Not Disturb" aria-pressed="false">☾</button>
+      <button class="menuaction" id="spotlightButton" aria-label="Spotlight search">⌕</button>
+      <button class="menuaction optional" id="networkButton" aria-label="Network status">⌁</button>
+      <button class="menuaction optional" id="batteryButton" aria-label="Power status">▰</button>
+      <button class="menuaction" id="controlButton" aria-label="Control Center">☷</button>
+      <button class="menuaction" id="dateButton" aria-label="Open calendar"><time id="menuTime"></time></button>
+    </div>
+  </header>
+
+  <section class="desktop-icons" id="desktopIcons" aria-label="Desktop applications"></section>
+
+  <aside class="clock-widget" id="clockWidget" aria-label="Analog clock">
+    <span class="clock-hand hour-hand" id="hourHand"></span>
+    <span class="clock-hand minute-hand" id="minuteHand"></span>
+    <span class="clock-hand second-hand" id="secondHand"></span>
+    <span class="clock-pin"></span>
+    <span class="clock-date" id="clockDate"></span>
+    <span class="clock-zone">Asia/Colombo</span>
+  </aside>
+
+  <div class="widgets">
+    <aside class="widget calendar" aria-label="Calendar">
+      <div class="calendar-head"><button class="month-prev" aria-label="Previous month">‹</button><div><div class="yr" id="yearLabel"></div><button class="month" id="monthLabel" aria-label="Open Calendar"></button></div><button class="month-next" aria-label="Next month">›</button></div>
+      <div class="calendar-days" id="calendarDays"></div>
+    </aside>
+    <a class="widget weather" id="weatherWidget" href="https://www.google.com/search?q=Colombo+weather" target="_blank" rel="noopener noreferrer" aria-label="Open current Colombo weather">
+      <div class="weather-top"><div class="weather-loc">COLOMBO</div><div class="weather-deg">☀</div><div class="weather-note">Check current weather ↗</div></div>
+      <div class="weather-bottom"><span>Colombo, Sri Lanka</span><span>↗</span></div>
+    </a>
+  </div>
+
+  <nav class="dock-holder" aria-label="macOS dock"><div class="dock" id="dock"></div></nav>
+  <div id="windowLayer" aria-label="Application windows"></div>
+  <button id="dinuLauncher" aria-label="Dinu — leave Dineth a message" aria-haspopup="dialog"><span class="dinu-orb" aria-hidden="true"><span></span></span><span class="dinu-name">Dinu</span></button>
+</div>
+
+
+
+<div id="menuPopover" class="popover menu-popover" role="menu" hidden></div>
+<section id="controlCenter" class="popover control-center" aria-label="Control Center" hidden></section>
+<section id="spotlight" role="dialog" aria-modal="true" aria-label="Spotlight search" hidden>
+  <div class="search-field"><span>⌕</span><input id="spotlightInput" placeholder="Spotlight Search" aria-label="Search apps and projects" autocomplete="off"><button id="closeSpotlight" aria-label="Close search">Esc</button></div>
+  <div id="spotlightResults" role="listbox" aria-label="Search results"></div>
+</section>
+<section id="lockScreen" hidden aria-label="Lock screen"><div class="lock-time"></div><div class="lock-date"></div><div class="lock-user">DB</div><h2>Dineth Basura</h2><button id="unlockButton">Click to unlock</button></section>
+<div id="toast" role="status" hidden></div>
+
+<script defer src="assets/js/data/icons.js"></script>
+<script defer src="assets/js/data/icon-metrics.js"></script>
+<script defer src="assets/js/data/apps.js"></script>
+<script defer src="assets/js/core/state.js"></script>
+<script defer src="assets/js/apps/views.js"></script>
+<script defer src="assets/js/core/windows.js"></script>
+<script defer src="assets/js/apps/behaviors.js"></script>
+<script defer src="assets/js/system/shell.js"></script>
+<script defer src="assets/js/system/widgets.js"></script>
+<script defer src="assets/js/system/boot.js"></script>
+<script defer src="assets/js/system/desktop-layout.js"></script>
+<script defer src="assets/js/data/contact.js"></script>
+<script defer src="assets/js/apps/dinu-ai.js"></script>
+<script defer src="assets/js/apps/dinu.js"></script>
+<script defer src="assets/js/main.js"></script>
+</body>
+</html>

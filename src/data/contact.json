@@ -1,0 +1,19 @@
+{
+  "accessKey": "b7c25ef8-08fd-44df-b72f-f19a99dfdaa1",
+  "eyebrow": "PROFESSIONAL ENQUIRIES",
+  "title": "Let's Connect",
+  "intro": "I'm currently looking for internship opportunities in cybersecurity and software development. Whether you have a question, a project idea, or an opportunity to discuss, I'd be glad to hear from you.",
+  "formTitle": "Send an enquiry",
+  "formIntro": "Please include the relevant details and your preferred contact email.",
+  "nameLabel": "Your name",
+  "emailLabel": "Email address",
+  "subjectLabel": "Subject (optional)",
+  "messageLabel": "Your message",
+  "submitLabel": "Send message",
+  "pendingLabel": "Sending…",
+  "successMessage": "Your message has been sent successfully.",
+  "errorMessage": "Your message couldn't be sent. Please try again, or contact me directly by email.",
+  "privacyNote": "Your name, email and message are sent via Web3Forms to deliver your enquiry.",
+  "defaultSubject": "New portfolio enquiry",
+  "homepageButton": "Contact me"
+}

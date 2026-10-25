@@ -1,0 +1,136 @@
+/* Lower-page artwork and glowing background animations */
+.lower-flow{position:relative;isolation:isolate;overflow:clip}
+.about-section,.skills-section,.certifications-section,.experience-section,.contact-section{position:relative;isolation:isolate;overflow:hidden}
+.section-wrap-inner{position:relative}
+
+.section-bg-fish,
+.lower-fish,
+.contact-page-fish{
+  position:absolute;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.55;
+  filter:drop-shadow(0 4px 22px rgba(109,92,255,0.22));
+  transition:opacity .3s ease;
+}
+html[data-theme='dark'] .section-bg-fish,
+html[data-theme='dark'] .lower-fish,
+html[data-theme='dark'] .contact-page-fish{
+  opacity:.72;
+  filter:drop-shadow(0 6px 28px rgba(167,139,250,0.35));
+}
+
+@keyframes fishSwayRight{
+  0%,100%{transform:translateY(0) rotate(-14deg)}
+  50%{transform:translateY(-18px) rotate(-9deg)}
+}
+@keyframes fishSwayLeft{
+  0%,100%{transform:translateY(0) rotate(16deg)}
+  50%{transform:translateY(-16px) rotate(11deg)}
+}
+
+.about-fish{top:-30px;right:-120px;width:450px;height:450px}
+.about-fish svg{animation:fishSwayRight 9s ease-in-out infinite}
+.about-animation{top:-80px;right:-150px;width:350px;height:350px}
+.skills-fish{top:10px;left:-130px;width:420px;height:420px}
+.skills-fish svg{animation:fishSwayLeft 10s ease-in-out infinite}
+.certs-fish{top:20px;right:-120px;width:430px;height:430px}
+.certs-fish svg{animation:fishSwayRight 11s ease-in-out infinite}
+.experience-fish{top:0;left:-120px;width:410px;height:410px}
+.experience-fish svg{animation:fishSwayLeft 9.5s ease-in-out infinite}
+.contact-fish{top:-10px;right:-110px;width:430px;height:430px}
+.contact-fish svg{animation:fishSwayRight 10.5s ease-in-out infinite}
+.contact-page-fish{position:absolute;left:-120px;top:-20px;width:460px;height:460px}
+.contact-page-fish svg{animation:fishSwayLeft 9s ease-in-out infinite}
+.projects-page-fish{position:absolute;right:-100px;top:20px;width:440px;height:440px}
+.projects-page-fish svg{animation:fishSwayRight 8.5s ease-in-out infinite}
+
+.lower-flow .skills-section,.lower-flow .certifications-section{background:color-mix(in srgb,var(--surface-alt) 80%,transparent)}
+.project-heading-layout{display:grid;grid-template-columns:1fr;align-items:center;gap:32px;margin-bottom:20px}
+.project-heading-layout .section-heading{margin:0;display:block}.project-heading-layout .section-heading p{margin-top:20px;max-width:620px}
+.project-heading-layout h1{font-size:clamp(38px,4vw,60px);letter-spacing:-.045em}.projects-page-link{margin-top:18px}
+.project-title-art{display:none;height:160px;border-radius:22px;background:linear-gradient(135deg,#2e2668,#3d3490);overflow:hidden;border:1px solid #6d5cff55}
+.project-title-art .animated-artwork{transform:scale(1.5)}
+.lower-flow .about-graphic{background:#2e2668;border-radius:20px;padding:16px;border:1px solid #5b4bd640}
+
+.contact-artwork-group{width:100%;max-width:420px;border-radius:24px;border:1px solid var(--border);background:var(--surface);overflow:hidden;box-shadow:0 16px 35px #2d1f6910}
+.mirror-artwork{width:100%;aspect-ratio:3/2;overflow:hidden;background:#e6e3df}
+.contact-artwork-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px 4px 22px}
+.contact-artwork-footer p{font-size:12px;line-height:1.8;color:var(--muted)}.contact-artwork-footer strong{font-weight:500;color:var(--text)}
+.connect-artwork{display:block;flex:0 0 140px;width:140px;height:115px;border-radius:16px;transition:transform .2s}.connect-artwork:hover{transform:translateY(-3px)}
+.contact-page .contact-artwork-group{margin-top:30px;max-width:440px}
+.contact-page{position:relative;isolation:isolate}
+.projects-index{position:relative;isolation:isolate;overflow:clip;padding-top:20px}.projects-index .projects-section{padding-top:30px}
+.projects-back{max-width:1192px;margin:auto;padding:0 40px}
+
+@media(max-width:768px){
+  .project-heading-layout{gap:18px}
+  .project-title-art{display:none}
+  .contact-artwork-group{max-width:440px}
+  .section-bg-fish{width:320px;height:320px}
+  .about-fish{right:-100px}
+  .skills-fish{left:-100px}
+  .certs-fish{right:-90px}
+  .experience-fish{left:-90px}
+  .contact-fish{right:-80px}
+  .contact-page-fish{width:300px;height:300px;left:-60px}
+  .contact-artwork-footer{padding-left:16px}
+  .projects-back{padding:0 26px}
+}
+@media(max-width:480px){
+  .project-heading-layout{grid-template-columns:1fr}
+  .project-title-art{height:105px;width:100%;max-width:230px}
+  .project-title-art .animated-artwork{transform:scale(1.8)}
+  .section-bg-fish{width:260px;height:260px;opacity:.4}
+  .contact-artwork-footer p{font-size:11px}
+  .connect-artwork{width:125px;flex-basis:125px;height:100px}
+}
+@media(prefers-reduced-motion:reduce){
+  .connect-artwork:hover{transform:none}
+  .section-bg-fish,.lower-fish,.contact-page-fish{animation:none!important}
+}
+
+
+/* ── Smart Mirror ambient background for contact section ── */
+.contact-mirror-bg{
+  position:absolute;
+  inset:-40px;
+  z-index:-1;
+  opacity:.07;
+  filter:blur(1px) saturate(1.2);
+  pointer-events:none;
+  transition:opacity .4s ease;
+}
+html[data-theme='dark'] .contact-mirror-bg{opacity:.12}
+@media(max-width:768px){.contact-mirror-bg{inset:-20px;opacity:.05}}
+@media(prefers-reduced-motion:reduce){.contact-mirror-bg{display:none}}
+
+/* ── Staggered project card scroll reveal ── */
+@keyframes projectCardIn{
+  0%{opacity:0;transform:translateY(50px) scale(.92);filter:blur(3px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+.projects-section .project-card[data-reveal]{opacity:0}
+.projects-section .project-card[data-reveal].revealed,
+.projects-section .project-card.card-animate{
+  animation:projectCardIn .7s cubic-bezier(.22,1,.36,1) both;
+  animation-delay:calc(var(--card-i,0) * .12s);
+}
+
+/* Project toolbar & pagination reveal */
+@keyframes toolbarSlideIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.projects-section .project-toolbar{opacity:0}
+.projects-section .project-toolbar.revealed{animation:toolbarSlideIn .5s ease-out both}
+.projects-section .project-heading-layout{opacity:0}
+.projects-section .project-heading-layout.revealed{animation:toolbarSlideIn .6s ease-out both}
+
+@media(prefers-reduced-motion:reduce){
+  .projects-section .project-card[data-reveal]{opacity:1}
+  .projects-section .project-card[data-reveal].revealed,
+  .projects-section .project-card.card-animate{animation:none;opacity:1;transform:none;filter:none}
+  .projects-section .project-toolbar,.projects-section .project-heading-layout{opacity:1}
+  .projects-section .project-toolbar.revealed,.projects-section .project-heading-layout.revealed{animation:none}
+}

@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm';
+import AnimatedArtwork from '../components/AnimatedArtwork.astro';
+import ContactArtwork from '../components/ContactArtwork.astro';
+import '../styles/lower-sections.css';
+import {profile,site,contact} from '../lib/data';
+---
+<Layout title={`Contact | ${profile.name}`} description={contact.intro}>
+  <section class="contact-page section-wrap" id="contact">
+    <div class="contact-mirror-bg"><AnimatedArtwork src="/animations/smart-mirror.json" class="smart-mirror-bg" scroll={true}/><div class="mirror-blur-overlay"></div></div>
+    <a class="text-link back-link" href="/">← Back to portfolio</a>
+    <div class="contact-page-heading"><h1>{contact.title}</h1><span aria-hidden="true"></span></div>
+    <div class="contact-page-grid">
+      <div class="contact-page-copy contact-glass-card" data-reveal>
+        <p class="contact-page-intro">{contact.intro}</p>
+        <a class="contact-email-card" href={`mailto:${profile.email}`}><span class="contact-email-icon"><Icon name="mail" size={24}/></span><span><span class="mini-label">EMAIL ME</span><strong>{profile.email}</strong></span></a>
+        <div class="contact-social-heading mini-label">SOCIAL MEDIA</div>
+        <div class="contact-page-socials"><a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub"><Icon name="github" size={23}/></a><a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" title="LinkedIn"><Icon name="linkedin" size={23}/></a><a href={site.cv} download aria-label="Download CV" title="Download CV"><Icon name="download" size={23}/></a></div>
+        <p class="contact-location"><Icon name="pin" size={15}/>{profile.location}</p>
+        <ContactArtwork href="#contact-form"/>
+      </div>
+      <div class="contact-form-card contact-glass-card" id="contact-form" data-reveal><h2 class="sr-only">{contact.formTitle}</h2><ContactForm client:load copy={contact} fromName={`${profile.name} portfolio`}/></div>
+    </div>
+  </section>
+</Layout>
+<script>
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const section=document.querySelector('.contact-page');
+  if(section){
+   const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+   section.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));
+  }
+ }
+</script>

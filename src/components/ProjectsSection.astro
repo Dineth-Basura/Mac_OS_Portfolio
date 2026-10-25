@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+import ProjectVisual from './ProjectVisual.astro';
+import AnimatedArtwork from './AnimatedArtwork.astro';
+import '../styles/lower-sections.css';
+import {profile,site} from '../lib/data';
+import type {CollectionEntry} from 'astro:content';
+interface Props {projects:CollectionEntry<'projects'>[]; standalone?:boolean}
+const {projects,standalone=false}=Astro.props;
+const categories=['All',...new Set(projects.map(p=>p.data.category))];
+---
+<section class="section-wrap projects-section" id="projects">
+ <div class="section-label"><span>03 / SELECTED WORK</span><span>FROM CONCEPT TO CODE</span></div>
+ <div class="project-heading-layout"><div class="section-heading">{standalone?<h1>{site.projectsTitle}</h1>:<h2>{site.projectsTitle}</h2>}<p>{site.projectsIntro}</p>{!standalone&&<a class="text-link projects-page-link" href="/projects/">Open projects page <Icon name="arrow" size={16}/></a>}</div><div class="project-title-art"><AnimatedArtwork src="/animations/about.json"/></div></div>
+ <div class="project-toolbar" data-reveal><div class="project-filters" role="group" aria-label="Filter projects" hidden>{categories.map((cat,i)=><button class:list={['filter-button',{'active':i===0}]} data-filter={cat} aria-pressed={i===0?'true':'false'}>{cat}</button>)}</div><span class="project-count" aria-live="polite">{projects.length} projects</span></div>
+ <div class="projects-grid" id="project-results">
+  {projects.map(p=><article class="project-card" data-category={p.data.category} data-reveal>
+   <a class="project-image-link" href={`/projects/${p.id}/`} aria-label={`Read ${p.data.title} case study`}>
+    {p.data.image?<img src={p.data.image} alt={p.data.imageAlt||p.data.title} width="760" height="506" loading="lazy" decoding="async"/>:<ProjectVisual visual={p.data.visual} title={p.data.title}/>}
+    <span class="project-category-badge">{p.data.category}</span>{p.data.featured&&<span class="project-featured-badge">Featured</span>}
+   </a>
+   <div class="project-copy">
+    <h3><a href={`/projects/${p.id}/`}>{p.data.title}</a></h3>
+    <p>{p.data.description}</p>
+    <ul class="tech-list">{p.data.technologies.map(t=><li>#{t}</li>)}</ul>
+    <span class="project-image-label">{p.data.image&&p.data.imageType==='screenshot'?'PROJECT PREVIEW':'CONCEPT VISUAL'}</span>
+    <div class="project-links">
+     {p.data.demo?<a class="project-action project-action-primary" href={p.data.demo} target="_blank" rel="noopener noreferrer">Demo<Icon name="arrow" size={15}/></a>:<a class="project-action project-action-primary" href={`/projects/${p.id}/`}>Details<Icon name="arrow" size={15}/></a>}
+     <a class="project-action project-action-code" href={p.data.repository} target="_blank" rel="noopener noreferrer" aria-label={`${p.data.title} code on GitHub`}><Icon name="github" size={15}/>Code</a>
+    </div>
+   </div>
+  </article>)}
+ </div>
+ <nav class="project-pagination" aria-label="Project pages" hidden data-reveal>
+  <button class="project-page-prev" aria-label="Previous project page" aria-controls="project-results" disabled><Icon name="right" size={18}/></button>
+  <span class="project-page-status" role="status" aria-live="polite" aria-atomic="true"></span>
+  <button class="project-page-next" aria-label="Next project page" aria-controls="project-results"><Icon name="right" size={18}/></button>
+ </nav>
+ <a class="github-more text-link" href={profile.github} target="_blank" rel="noopener noreferrer">Explore more on GitHub <Icon name="arrow"/></a>
+</section>
+<script>
+ const filters=document.querySelector<HTMLElement>('.project-filters');
+ const pager=document.querySelector<HTMLElement>('.project-pagination');
+ const cards=Array.from(document.querySelectorAll<HTMLElement>('.project-card'));
+ const previous=document.querySelector<HTMLButtonElement>('.project-page-prev');
+ const next=document.querySelector<HTMLButtonElement>('.project-page-next');
+ const status=document.querySelector<HTMLElement>('.project-page-status');
+ const countLabel=document.querySelector<HTMLElement>('.project-count');
+ let category='All';let page=0;const pageSize=3;
+ function render(){
+  const matches=cards.filter(card=>category==='All'||card.dataset.category===category);
+  const totalPages=Math.max(1,Math.ceil(matches.length/pageSize));page=Math.min(page,totalPages-1);
+  const visible=new Set(matches.slice(page*pageSize,(page+1)*pageSize));cards.forEach(card=>card.hidden=!visible.has(card));
+  if(previous)previous.disabled=page===0;if(next)next.disabled=page===totalPages-1;
+  if(status)status.textContent=`Page ${page+1} of ${totalPages}`;
+  if(countLabel)countLabel.textContent=`${matches.length} project${matches.length===1?'':'s'}`;
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+   const visibleCards=matches.slice(page*pageSize,(page+1)*pageSize);
+   visibleCards.forEach((card,i)=>{card.style.opacity='0';card.style.transform='translateY(20px) scale(0.95)';setTimeout(()=>{card.style.transition='opacity 0.6s ease-out, transform 0.6s ease-out';card.style.opacity='1';card.style.transform='translateY(0) scale(1)';},i*100);});
+  }
+ }
+ document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach(button=>button.addEventListener('click',()=>{category=button.dataset.filter||'All';page=0;document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});render();}));
+ function changePage(delta:number){page+=delta;render();document.querySelector('.project-toolbar')?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
+ previous?.addEventListener('click',()=>changePage(-1));next?.addEventListener('click',()=>changePage(1));
+ if(cards.length>0){
+  render();if(filters)filters.hidden=false;if(pager)pager.hidden=false;
+ }
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const section=document.querySelector('.projects-section');
+  if(section){
+   const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+   section.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));
+  }
+ }
+</script>

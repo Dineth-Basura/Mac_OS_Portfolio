@@ -1,0 +1,13 @@
+---
+const { visual='generic',title='',large=false }=Astro.props;
+---
+<div class:list={['project-art',`art-${visual}`,{'art-large':large}]} aria-hidden="true">
+  <div class="art-grid"></div>
+  {visual==='network' ? <div class="network-art"><span class="net-node node-a"></span><span class="net-node node-b"></span><span class="net-node node-c"></span><span class="net-node node-d"></span><span class="net-node node-e"></span><svg viewBox="0 0 500 260"><path d="M100 80 250 135 400 55M250 135 370 210M250 135 80 220M100 80 400 55"/></svg><div class="net-core"><svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 5 8 9 8 9s8-4 8-9V7z"/><path d="m8 12 3 3 5-6"/></svg></div><span class="art-caption">NETWORK RECONNAISSANCE</span></div>
+  : visual==='plate' ? <div class="plate-art"><div class="scan-corners"></div><div class="license-plate"><small>SRI LANKA</small><b>WP · CAA 2048</b></div><div class="scan-line"></div><span class="art-caption">DETECT → RECOGNIZE</span></div>
+  : visual==='book' ? <div class="books-art"><div class="book book-a"><small>THE ART OF</small><b>THINKING<br/>IN SYSTEMS</b><span>01 / COLLECTION</span></div><div class="book book-b"><small>A NEW CHAPTER</small><b>BUILD.<br/>LEARN.<br/>REPEAT.</b></div><span class="art-caption">A DIGITAL BOOKSHELF</span></div>
+  : visual==='password' ? <div class="password-art"><div class="password-dots">● ● ● ● ● ● ● ●</div><div class="strength-line"></div><span class="art-caption">ANALYZE · GENERATE · PROTECT</span></div>
+  : visual==='tcp' ? <div class="tcp-art"><span>CLIENT</span><svg viewBox="0 0 180 50"><path d="M10 15h160m-10-8 10 8-10 8M170 35H10m10-8-10 8 10 8"/></svg><span>SERVER</span><span class="art-caption">BIDIRECTIONAL COMMUNICATION</span></div>
+  : visual==='gym' ? <div class="gym-art"><div class="barbell"><i></i><b></b><i></i></div><span class="art-caption">MEMBERS · TRAINERS · OPERATIONS</span></div>
+  : <div class="generic-art"><span class="abstract-ring"></span><span class="abstract-ring ring-two"></span><b>{title.substring(0,1)}</b><span class="art-caption">EXPLORATION THROUGH ENGINEERING</span></div>}
+</div>

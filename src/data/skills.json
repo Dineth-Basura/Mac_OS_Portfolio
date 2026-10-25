@@ -1,0 +1,141 @@
+{
+  "categories": [
+    {
+      "title": "Cybersecurity & networking",
+      "subtitle": "Understanding systems. Finding the edges.",
+      "icon": "shield",
+      "items": [
+        "TCP/IP",
+        "Socket programming",
+        "SYN scanning",
+        "Vulnerability assessment",
+        "OS fingerprinting",
+        "CVE / NVD integration",
+        "Network communication",
+        "Multithreading"
+      ]
+    },
+    {
+      "title": "Programming",
+      "subtitle": "Turning a problem into a working solution.",
+      "icon": "code",
+      "items": [
+        "Python",
+        "Java",
+        "C",
+        "SQL",
+        "JavaScript"
+      ]
+    },
+    {
+      "title": "Frameworks & libraries",
+      "subtitle": "Building across the stack.",
+      "icon": "layers",
+      "items": [
+        "React",
+        "Spring Boot",
+        "Express.js",
+        "Node.js",
+        "PaddleOCR",
+        "YOLOv12"
+      ]
+    },
+    {
+      "title": "Tools & technologies",
+      "subtitle": "The instruments behind the work.",
+      "icon": "terminal",
+      "items": [
+        "Wireshark",
+        "Nmap",
+        "Burp Suite",
+        "Git",
+        "GitHub",
+        "Docker",
+        "Docker Compose"
+      ]
+    },
+    {
+      "title": "Cloud skills",
+      "subtitle": "Working with cloud infrastructure and security.",
+      "icon": "cloud",
+      "items": [
+        "Amazon Web Services (AWS)",
+        "AWS IAM",
+        "Amazon EC2",
+        "Amazon S3",
+        "Amazon VPC",
+        "Amazon CloudWatch",
+        "AWS CloudTrail"
+      ]
+    },
+    {
+      "title": "Operating systems",
+      "subtitle": "Comfortable close to the system.",
+      "icon": "monitor",
+      "items": [
+        "Linux",
+        "Kali Linux",
+        "Windows"
+      ]
+    },
+    {
+      "title": "Databases",
+      "subtitle": "Making information useful.",
+      "icon": "database",
+      "items": [
+        "MySQL",
+        "MongoDB"
+      ]
+    }
+  ],
+  "stack": [
+    {
+      "name": "Python",
+      "icon": "/images/tech/python.svg"
+    },
+    {
+      "name": "JavaScript",
+      "icon": "/images/tech/javascript.svg"
+    },
+    {
+      "name": "React",
+      "icon": "/images/tech/react.svg"
+    },
+    {
+      "name": "Spring Boot",
+      "icon": "/images/tech/springboot.svg"
+    },
+    {
+      "name": "Docker",
+      "icon": "/images/tech/docker.svg"
+    },
+    {
+      "name": "Linux",
+      "icon": "/images/tech/linux.svg"
+    },
+    {
+      "name": "Git",
+      "icon": "/images/tech/git.svg"
+    },
+    {
+      "name": "GitHub",
+      "icon": "/images/tech/github.svg"
+    },
+    {
+      "name": "MySQL",
+      "icon": "/images/tech/mysql.svg"
+    },
+    {
+      "name": "MongoDB",
+      "icon": "/images/tech/mongodb.svg"
+    },
+    {
+      "name": "Wireshark",
+      "icon": "/images/tech/wireshark.svg"
+    },
+    {
+      "name": "Node.js",
+      "icon": "/images/tech/nodejs.svg"
+    }
+  ]
+}

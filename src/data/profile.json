@@ -1,0 +1,25 @@
+{
+  "name": "Dineth Basura",
+  "fullName": "Dineth Basura D.H.",
+  "role": "Cybersecurity undergraduate · Software developer",
+  "status": "Open to internship opportunities",
+  "headline": "Secure by mindset.\nCreative by nature.",
+  "intro": "Exploring the intersection of cybersecurity and software development. Building thoughtful digital experiences with security at their core.",
+  "bio": "I'm a cybersecurity undergraduate at SLIIT with a strong interest in information security and software development. I build practical experience through hands-on projects in networking, Linux, programming, and security tooling.",
+  "aboutDetail": "From understanding how packets travel to building full-stack applications, I enjoy connecting the details to the bigger picture. My interests span ethical hacking, defensive security, and creating reliable, secure applications.",
+  "email": "dinethbasura1@gmail.com",
+  "location": "Malabe, Colombo, Sri Lanka",
+  "github": "https://github.com/Dineth-Basura",
+  "linkedin": "https://linkedin.com/in/dineth-basura-00711035a",
+  "portrait": "/images/portrait.webp",
+  "portraitAlt": "Dineth Basura wearing a black suit in a studio portrait",
+  "orbitSkills": [
+    "Python",
+    "Linux",
+    "Java",
+    "Docker",
+    "React",
+    "Wireshark"
+  ],
+  "typedIntro": "Hi, I'm Dineth. Let's build something secure."
+}

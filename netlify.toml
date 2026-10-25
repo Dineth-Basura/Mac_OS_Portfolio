@@ -1,0 +1,17 @@
+[build]
+  command = "node scripts/build-static.cjs"
+  publish = "site"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/api/dinu-chat"
+  to = "/.netlify/functions/dinu-chat"
+  status = 200
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"

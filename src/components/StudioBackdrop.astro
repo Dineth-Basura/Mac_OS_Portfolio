@@ -1,0 +1,13 @@
+---
+import AnimatedArtwork from './AnimatedArtwork.astro';
+---
+<div class="studio-backdrop" aria-hidden="true">
+ <AnimatedArtwork src="/animations/hero.json" class="studio-artwork" />
+ <img class="studio-poster" src="/frames/hero/desktop/000.webp" alt="" fetchpriority="high" />
+ <canvas class="studio-frames" data-studio-frames></canvas>
+ <div class="studio-shade"></div>
+</div>
+<script>
+ import { initStudioScroll } from '../lib/studioScroll';
+ initStudioScroll();
+</script>

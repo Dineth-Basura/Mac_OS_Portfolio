@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectsSection from '../../components/ProjectsSection.astro';
+import AnimatedArtwork from '../../components/AnimatedArtwork.astro';
+import {getCollection} from 'astro:content';
+import {profile} from '../../lib/data';
+const projects=(await getCollection('projects',({data})=>data.visible)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||a.data.order-b.data.order);
+---
+<Layout title={`Projects | ${profile.name}`}>
+ <div class="projects-index">
+  <div class="projects-back"><a class="text-link" href="/">Back to portfolio</a></div>
+  <AnimatedArtwork src="/animations/fish.json" class="lower-fish"/>
+  <ProjectsSection projects={projects} standalone/>
+ </div>
+</Layout>
